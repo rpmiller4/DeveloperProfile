@@ -36,7 +36,7 @@ export class QuestionsAndAnswers extends Component {
         <div class="form-group">
           <label for="questionContext">Insert Context Here</label>
           <textarea class="form-control" id="questionContext" rows="3" onChange={this.setContext}></textarea>
-          <label for="answerTextArea">Answer:</label>
+          <label for="answerTextArea">Question:</label>
           <textarea class="form-control" id="questionArea" rows="3" onChange={this.setQuestion}></textarea>
         </div>
         <button className="btn btn-primary" onClick={() => this.submitQuestion()}>Get Answers</button>
