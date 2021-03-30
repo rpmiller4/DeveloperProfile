@@ -2,6 +2,7 @@
 import { Scores } from './Scores';
 import * as qna from '@tensorflow-models/qna';
 import ClickableImageGridList from './ClickableImageGridList'
+import CircularProgress from '@material-ui/core/CircularProgress' 
 
 export class QnAGallery extends Component {
   static displayName = QnAGallery.name;
@@ -11,6 +12,7 @@ export class QnAGallery extends Component {
       question : "Where is San Diego?",
       context: "San Diego (/ˌsæn diˈeɪɡoʊ/, Spanish: [san ˈdjeɣo]; Spanish for 'Saint Didacus') is a city in the U.S. state of California on the coast of the Pacific Ocean and immediately adjacent to the United States–Mexico border. With an estimated population of 1,423,851 as of July 1, 2019,[10] San Diego is the eighth most populous city in the United States and second most populous in California (after Los Angeles). The city is the county seat of San Diego County, the fifth most populous county in the United States, with 3,338,330 estimated residents as of 2019. The city is known for its mild year-round climate, natural deep-water harbor, extensive beaches and parks, long association with the United States Navy and Marine Corps, and recent emergence as a healthcare and biotechnology development center. Historically home to the Kumeyaay people, San Diego is frequently referred to as the 'Birthplace of California', as it was the first site visited and settled by Europeans on what is now the West Coast of the United States.[12] Upon landing in San Diego Bay in 1542, Juan Rodríguez Cabrillo claimed the area for Spain, forming the basis for the settlement of Alta California 200 years later.The Presidio and Mission San Diego de Alcalá, founded in 1769, formed the first European settlement in what is now California.In 1821, San Diego became part of the newly declared Mexican Empire, which reformed as the First Mexican Republic two years later.California became part of the United States in 1848 following the Mexican–American War and was admitted to the union as a state in 1850. San Diego's main economic engines are military and defense-related activities, tourism, international trade, research, and manufacturing. The city is the economic center of the San Diego–Tijuana conurbation, the second most populous transborder metropolitan area in the western hemisphere (after Detroit–Windsor), home to an estimated 4,922,723 people as of 2012.[13] The primary border crossing between San Diego and Tijuana, the San Ysidro Port of Entry, is the busiest international land border crossing in the world outside of Asia (fourth-busiest overall). The city's primary airport, San Diego International Airport, is the busiest single- runway airport in the world.[a][14]",
       answer: [],
+      loadingAnswer: false,
       galleryItems: [
         {
           id: 0,
@@ -86,6 +88,7 @@ export class QnAGallery extends Component {
   handleChange = event => {
     this.setState(
       {
+        loadingAnswer: true,
         context: this.state.galleryItems[event].passage,
         question: this.state.galleryItems[event].question
       },
@@ -108,13 +111,14 @@ export class QnAGallery extends Component {
             <input type="button" class="form-control btn btn-primary mb-2" value="Get Answers" onClick={() => this.submitQuestion()}></input>
           </div>
         </form>
-        <Scores scores={this.state.answer} />
+        {this.state.loadingAnswer ? <CircularProgress /> : <Scores scores={this.state.answer} /> }
       </div>
     );
   }
 
 
   submitQuestion() {
+    this.setState({ loadingAnswer: true })
     this.respond(this.state.question, this.state.context)
   }
 
@@ -130,6 +134,7 @@ export class QnAGallery extends Component {
         this.setState({ answer: answers }, () => {
           //callback
           console.log(this.state.answer);
+          this.setState({ loadingAnswer: false });
         });
       });
     });
