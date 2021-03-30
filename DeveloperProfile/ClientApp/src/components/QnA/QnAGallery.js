@@ -61,6 +61,8 @@ export class QnAGallery extends Component {
     this.respond = this.respond.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.submitQuestion = this.submitQuestion.bind(this);
+    this.respond = this.respond.bind(this);
   }
 
   setContext(event) {
@@ -103,7 +105,7 @@ export class QnAGallery extends Component {
             <textarea id="Question" type="text" class="form-control" rows="1" value={this.state.question} onChange={this.setContext} />
             <label for="Passage">Passage</label>
             <textarea id="Passage" type="textarea" class="form-control" value={this.state.context} onChange={this.setQuestion} />
-            <input type="button" class="form-control btn btn-primary mb-2" value="Get Answers" onSubmit={() => this.submitQuestion}></input>
+            <input type="button" class="form-control btn btn-primary mb-2" value="Get Answers" onClick={() => this.submitQuestion()}></input>
           </div>
         </form>
         <Scores scores={this.state.answer} />
@@ -112,9 +114,8 @@ export class QnAGallery extends Component {
   }
 
 
-  async submitQuestion(event) {
-    event.preventDefault();
-    await this.respond(this.state.question, this.state.context)
+  submitQuestion() {
+    this.respond(this.state.question, this.state.context)
   }
 
   async respond(question, passage) {
