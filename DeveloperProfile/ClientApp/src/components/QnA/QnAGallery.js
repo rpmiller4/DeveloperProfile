@@ -1,14 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Scores } from './Scores';
 import * as qna from '@tensorflow-models/qna';
-import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ClickableImageGridList from './ClickableImageGridList'
-//import IconButton from '@material-ui/core/IconButton';
-//import StarBorderIcon from '@material-ui/icons/StarBorder';
-//import tileData from './tileData';
 
 export class QnAGallery extends Component {
   static displayName = QnAGallery.name;
@@ -50,6 +43,14 @@ export class QnAGallery extends Component {
           passage: "Life is a characteristic that distinguishes physical entities that have biological processes, such as signaling and self-sustaining processes, from those that do not, either because such functions have ceased (they have died), or because they never had such functions and are classified as inanimate. Various forms of life exist, such as plants, animals, fungi, protists, archaea, and bacteria. Biology is the science concerned with the study of life. There is currently no consensus regarding the definition of life.One popular definition is that organisms are open systems that maintain homeostasis, are composed of cells, have a life cycle, undergo metabolism, can grow, adapt to their environment, respond to stimuli, reproduce and evolve.Other definitions sometimes include non- cellular life forms such as viruses and viroids. Abiogenesis is the natural process of life arising from non - living matter, such as simple organic compounds.The prevailing scientific hypothesis is that the transition from non - living to living entities was not a single event, but a gradual process of increasing complexity.Life on Earth first appeared as early as 4.28 billion years ago, soon after ocean formation 4.41 billion years ago, and not long after the formation of the Earth 4.54 billion years ago.[1][2][3][4] The earliest known life forms are microfossils of bacteria.[5][6] Researchers generally think that current life on Earth descends from an RNA world, [7] although RNA - based life may not have been the first life to have existed.[8][9] The classic 1952 Miller–Urey experiment and similar research demonstrated that most amino acids, the chemical constituents of the proteins used in all living organisms, can be synthesized from inorganic compounds under conditions intended to replicate those of the early Earth.Complex organic molecules occur in the Solar System and in interstellar space, and these molecules may have provided starting material for the development of life on Earth.[10][11][12][13] Since its primordial beginnings, life on Earth has changed its environment on a geologic time scale, but it has also adapted to survive in most ecosystems and conditions.Some microorganisms, called extremophiles, thrive in physically or geochemically extreme environments that are detrimental to most other life on Earth.The cell is considered the structural and functional unit of life.[14][15] There are two kinds of cells, prokaryotic and eukaryotic, both of which consist of cytoplasm enclosed within a membrane and contain many biomolecules such as proteins and nucleic acids.Cells reproduce through a process of cell division, in which the parent cell divides into two or more daughter cells. In the past, there have been many attempts to define what is meant by 'life' through obsolete concepts such as odic force, hylomorphism, spontaneous generation and vitalism, that have now been disproved by biological discoveries.Aristotle is considered to be the first person to classify organisms.Later, Carl Linnaeus introduced his system of binomial nomenclature for the classification of species.Eventually new groups and categories of life were discovered, such as cells and microorganisms, forcing dramatic revisions of the structure of relationships between living organisms.Though currently only known on Earth, life need not be restricted to it, and many scientists speculate in the existence of extraterrestrial life.Artificial life is a computer simulation or human- made reconstruction of any aspect of life, which is often used to examine systems related to natural life. Death is the permanent termination of all biological processes which sustain an organism, and as such, is the end of its life.Extinction is the term describing the dying out of a group or taxon, usually a species.Fossils are the preserved remains or traces of organisms.",
           imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Ruwenpflanzen.jpg/260px-Ruwenpflanzen.jpg",
           cols: 1
+        },
+        {
+          id: 4,
+          articleTitle: "Lemur",
+          question: "Are there lemurs outside of Madagascar?",
+          passage: "Lemurs (/ˈliːmər/ (About this soundlisten) LEE-mər) (from Latin lemures – ghosts or spirits) are mammals of the order Primates, divided into 8 families and consisting of 15 genera and around 100 existing species. They are native only to the island of Madagascar. Most existing lemurs are small, have a pointed snout, large eyes, and a long tail. They chiefly live in trees (arboreal), and are active at night (nocturnal). Lemurs share resemblance with other primates, but evolved independently from monkeys and apes.Due to Madagascar's highly seasonal climate, lemur evolution has produced a level of species diversity rivaling that of any other primate group. Until shortly after humans arrived on the island around 2,000 years ago, there were lemurs as large as a male gorilla. Most species have been discovered or promoted to full species status since the 1990s; however, lemur taxonomic classification is controversial and depends on which species concept is used. Lemurs range in weight from the 30-gram(1.1 oz) mouse lemur to the 9-kilogram(20 lb) indri.Lemurs share many common basal primate traits, such as divergent digits on their hands and feet, and nails instead of claws(in most species).However, their brain- to - body size ratio is smaller than that of anthropoid primates.As with all strepsirrhine primates, they have a 'wet nose'(rhinarium).Lemurs are generally the most social of the strepsirrhine primates, and communicate more with scents and vocalizations than with visual signals.Lemurs have a relatively low basal metabolic rate, and as a result may exhibit dormancy such as hibernation or torpor.They also have seasonal breeding and female social dominance.Most eat a wide variety of fruits and leaves, while some are specialists.Two species of lemurs may coexist in the same forest due to different diets. Lemur research during the 18th and 19th centuries focused on taxonomy and specimen collection.Modern studies of lemur ecology and behavior did not begin in earnest until the 1950s and 1960s.Initially hindered by political issues on Madagascar during the mid- 1970s, field studies resumed in the 1980s.Lemurs are important for research because their mix of ancestral characteristics and traits shared with anthropoid primates can yield insights on primate and human evolution.Many lemur species remain endangered due to habitat loss and hunting.Many lemur species have already gone extinct in the last 2000 years due to human activity, and are collectively referred to as the 'subfossil lemurs'.Although local traditions, such as fady, generally help protect lemurs and their forests, illegal logging, economic privation and political instability conspire to thwart conservation efforts.Because of these threats and their declining numbers, the International Union for Conservation of Nature(IUCN) considers lemurs to be the world's most endangered mammals, noting that as of 2013 up to 90% of all lemur species confront the threat of extinction in the wild within the next 20 to 25 years. As an iconic flagship species that exemplifies the biodiverse fauna of Madagascar, however, lemurs have facilitated the emergence of eco-tourism in Madagascar in World Heritage Sites, such as the Rainforests of the Atsinanana in eastern Madagascar. In addition, conservation organizations, such as the Lemur Conservation Foundation and the Duke Lemur Center, increasingly seek to implement community-based approaches, such as encouraging local communities to adopt sustainable agriculture and afforestation initiatives, to expand employment opportunities for ecological programs, preserve lemur habitats as well as promote public awareness and appreciation for lemurs.",
+          imageSrc: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Lemuroidea.jpg/220px-Lemuroidea.jpg",
+          cols: 1
         }
       ]
       
@@ -63,12 +64,14 @@ export class QnAGallery extends Component {
   }
 
   setContext(event) {
+    event.preventDefault();
     this.setState({
       question: event.target.value
     });
   }
 
   setQuestion(event) {
+    event.preventDefault();
     this.setState({
       context: event.target.value
     });
@@ -93,11 +96,14 @@ export class QnAGallery extends Component {
         <h4> Select a Wikipedia Article Introduction to Answer Questions with Tensorflow ML and AI</h4>
         <h5 class="text-muted"> Alternatively, copy and paste text into the fields below. Or write your own question!</h5>  
         <ClickableImageGridList galleryItems={this.state.galleryItems} onChange={this.handleChange} />
+        <p/>
         <form>
           <div class="form-group">
-            <input type="text" class="form-control" value={this.state.question} onChange={() => this.setQuestion} />
-            <textarea type="textarea" class="form-control" value={this.state.context} onChange={() => this.setContext()} />
-            <input type="button" class="form-control btn btn-primary mb-2" onClick={() => this.submitQuestion()} value="Get Answers"></input>
+            <label for="Question">Question</label>
+            <textarea id="Question" type="text" class="form-control" rows="1" value={this.state.question} onChange={this.setContext} />
+            <label for="Passage">Passage</label>
+            <textarea id="Passage" type="textarea" class="form-control" value={this.state.context} onChange={this.setQuestion} />
+            <input type="button" class="form-control btn btn-primary mb-2" value="Get Answers" onSubmit={() => this.submitQuestion}></input>
           </div>
         </form>
         <Scores scores={this.state.answer} />
@@ -106,7 +112,8 @@ export class QnAGallery extends Component {
   }
 
 
-  async submitQuestion() {
+  async submitQuestion(event) {
+    event.preventDefault();
     await this.respond(this.state.question, this.state.context)
   }
 

@@ -20,7 +20,6 @@ export class Scores extends Component {
     )
   }
 
-
   /* https://stackoverflow.com/questions/1435975/how-can-i-round-down-a-number-in-javascript */
   roundDown(number, decimals) {
     decimals = decimals || 0;
