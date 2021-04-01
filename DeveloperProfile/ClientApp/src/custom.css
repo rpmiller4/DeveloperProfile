@@ -12,3 +12,14 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+/* for three js*/
+
+body {
+    margin: 0;
+    height: 100vh
+}
+
+canvas {
+    display: block;
+}
