@@ -11,15 +11,17 @@ export class SplashPage extends Component {
   componentDidMount() {
     
     var meshArray = [];
-    var cubesInSpace = 3000;
+    var cubesInSpace = 1500;
 
     let step = (mesh) => {
       mesh.rotation.x += .0005 * mesh.position.y;
       mesh.rotation.y += .0001 * mesh.position.x;
-      mesh.position.y -= mesh.position.y < 100 || mesh.position.y > -100 ? Math.random() * (-.005) * mesh.position.y  : Math.random() * (.005) * mesh.position.y;
-      mesh.position.x -= mesh.position.x < 100 || mesh.position.x > -100 ? Math.random() * (-.005) * mesh.position.x  : Math.random() * (.005) * mesh.position.x;
-      mesh.position.z -= mesh.position.z < 100 || mesh.position.z > -100 ? Math.random() * (-.005) * mesh.position.z  : Math.random() * (.005) * mesh.position.z;
-
+      mesh.position.y -= mesh.position.y < 100 || mesh.position.y > -100 ? -.0005 * mesh.position.y  :  (.0005) * mesh.position.y;
+      mesh.position.x -= mesh.position.x < 100 || mesh.position.x > -100 ? -.0005 * mesh.position.x  :  (.0005) * mesh.position.x;
+      mesh.position.z -= mesh.position.z < 100 || mesh.position.z > -100 ? -.0005 * mesh.position.z : (.0005) * mesh.position.z;
+      //mesh.material.color.r = Math.random();
+      mesh.material.color.r = mesh.position.x / 5 / mesh.rotation.x % 1 ;
+      mesh.material.color.b = mesh.position.y / 5 / mesh.rotation.x % 1 ;
     };
 
     let setRandomPosition = (mesh) => {
@@ -29,8 +31,9 @@ export class SplashPage extends Component {
     }
 
     let makeMesh = () => {
-      var mesh = new THREE.Mesh(geometry, material);
+      var mesh = new THREE.Mesh(new THREE.SphereGeometry(Math.random()), new THREE.MeshLambertMaterial());
       setRandomPosition(mesh);
+      mesh.material.color.g = mesh.material.color.g + Math.random(1) % 1;
       return mesh;
     }
 
@@ -48,7 +51,7 @@ export class SplashPage extends Component {
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
-    camera.position.z = 500;//500 is perfect;
+    camera.position.z = 200;//500 is perfect;
     var renderer = new THREE.WebGLRenderer({ antialias: true });
 
 
@@ -63,15 +66,9 @@ export class SplashPage extends Component {
     window.addEventListener('resize', () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
-
+      camera.updateProjectionMatrix();
     });
 
-
-    
-
-
-    var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshLambertMaterial({ color: 0xFFFFFF });
 
     for (var i = 0; i < cubesInSpace; i++)
     {
@@ -83,30 +80,9 @@ export class SplashPage extends Component {
     var spotLight = new THREE.SpotLight(0xff0000);
     spotLight.position.set(100, 1000, 100);
 
-    light.position.set(10, 0, 25);
+    light.position.set(10, 0, 50);
     scene.add(light);
-    scene.add(spotLight);
-
-    const vertices = [];
-
-    for (let i = 0; i < 10; i++) {
-
-      const x = THREE.MathUtils.randFloatSpread(50);
-      const y = THREE.MathUtils.randFloatSpread(50);
-      const z = THREE.MathUtils.randFloatSpread(50);
-
-      vertices.push(x, y, z);
-
-    }
-
-    const vgeometry = new THREE.BufferGeometry();
-    vgeometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-
-    const vmaterial = new THREE.PointsMaterial({ color: 0xBBBBBB });
-
-    const vpoints = new THREE.Points(vgeometry, vmaterial);
-
-    scene.add(vpoints);
+    //scene.add(spotLight);
 
     var render = function () {
       requestAnimationFrame(render);
