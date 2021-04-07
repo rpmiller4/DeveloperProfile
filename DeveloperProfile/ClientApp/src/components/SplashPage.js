@@ -1,110 +1,178 @@
 ﻿import React, { Component } from 'react';
-import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import '../custom.css'
+import * as THREE from "three";
+import * as POSTPROCESSING from "postprocessing";
+var smoke = require("./texture3.png");
+var smoke2 = require("./texture4.png");
 
 
 export class SplashPage extends Component {
   static displayName = SplashPage.name;
 
-
-
   componentDidMount() {
-    
-    var meshArray = [];
-    var cubesInSpace = 1500;
 
-    let step = (mesh) => {
-      mesh.rotation.x += .0005 * mesh.position.y;
-      mesh.rotation.y += .0001 * mesh.position.x;
-      mesh.position.y -= mesh.position.y < 100 || mesh.position.y > -100 ? -.0005 * mesh.position.y  :  (.0005) * mesh.position.y;
-      mesh.position.x -= mesh.position.x < 100 || mesh.position.x > -100 ? -.0005 * mesh.position.x  :  (.0005) * mesh.position.x;
-      mesh.position.z -= mesh.position.z < 100 || mesh.position.z > -100 ? -.0005 * mesh.position.z : (.0005) * mesh.position.z;
-      //mesh.material.color.r = Math.random();
-      mesh.material.color.r = mesh.position.x / 5 / mesh.rotation.x % 1 ;
-      mesh.material.color.b = mesh.position.y / 5 / mesh.rotation.x % 1 ;
-    };
-
-    let setRandomPosition = (mesh) => {
-      mesh.position.x = Math.random() * 50 - 25;
-      mesh.position.y = Math.random() * 50 - 25;
-      mesh.position.z = Math.random() * 50 - 25;
-    }
-
-    let makeMesh = () => {
-      var mesh = new THREE.Mesh(new THREE.SphereGeometry(Math.random()), new THREE.MeshLambertMaterial());
-      setRandomPosition(mesh);
-      mesh.material.color.g = mesh.material.color.g + Math.random(1) % 1;
-      return mesh;
-    }
-
-    let pushMeshIntoScene = () => {
-      var mesh = makeMesh();
-      meshArray.push(mesh);
-      scene.add(mesh);
-    }
-
-    let repurposeMesh = (mesh) => {
-      if (mesh.position.x + mesh.position.y + mesh.position.z > 300) {
-        setRandomPosition(mesh);
-      };
-    }
+    var cloudParticles = [];
 
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 10000);
-    camera.position.z = 200;//500 is perfect;
+    var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+    //var camera = new THREE.OrthographicCamera(60, window.innerWidth / window.innerHeight, 1, 1000, 1, 1000);
+    var mouse = new THREE.Vector3(0, 0, 0.5);
+
+    camera.position.z = 1;
+    camera.rotation.x = 1.16;
+    camera.rotation.y = -0.12;
+    camera.rotation.z = 0.27;
+
+    let ambient = new THREE.AmbientLight(0x777777);
+    scene.add(ambient);
+
     var renderer = new THREE.WebGLRenderer({ antialias: true });
-
-
-
-    renderer.setClearColor("#FFFFFF");
     renderer.setSize(window.innerWidth, window.innerHeight);
+    scene.fog = new THREE.FogExp2(0x03544e, 0.001); //0.001
+    renderer.setClearColor(scene.fog.color);
     document.body.appendChild(renderer.domElement);
 
-
-
-
-    window.addEventListener('resize', () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
+    window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
+    let loader = new THREE.TextureLoader();
+    let texture = loader.load(smoke);
+    let texture2 = loader.load(smoke2);
+    let addCloudToScene = (mouse) => {
 
+      var cloudGeo = new THREE.PlaneBufferGeometry(400, 400);
+      var cloudMaterial = new THREE.MeshLambertMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 0.2
+      });
+      var cloudMaterial2 = new THREE.MeshLambertMaterial({
+        map: texture2,
+        transparent: true,
+        opacity: 0.2
+      });
 
-    for (var i = 0; i < cubesInSpace; i++)
-    {
-      pushMeshIntoScene();
+      let cloud = new THREE.Mesh(cloudGeo, Math.random() < .5 ? cloudMaterial : cloudMaterial2);
+      cloud.position.set(
+        Math.random() * 800 - 400,
+        500,
+        Math.random() * 500 - 500
+      );
+      cloud.rotation.x = 1.16;
+      cloud.rotation.y = -0.12;
+      cloud.rotation.z = Math.random() * 2 * Math.PI;
+      cloudParticles.push(cloud);
+      scene.add(cloud);
+
     }
 
-    var light = new THREE.PointLight(0xffffff, 1, 500);
+    loader.load(smoke,
+      (texture) => {
 
-    var spotLight = new THREE.SpotLight(0xff0000);
-    spotLight.position.set(100, 1000, 100);
+        var cloudGeo = new THREE.PlaneBufferGeometry(400, 400);
+        var cloudMaterial = new THREE.MeshLambertMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0.2
+        });
+        var cloudMaterial2 = new THREE.MeshLambertMaterial({
+          map: texture2,
+          transparent: true,
+          opacity: 0.2
+        });
+        for (let p = 0; p < 50; p++) {
+          let cloud = new THREE.Mesh(cloudGeo, Math.random() < .5 ? cloudMaterial : cloudMaterial2);
+          cloud.position.set(
+            Math.random() * 800 - 400,
+            500,
+            Math.random() * 500 - 500
+          );
+          cloud.rotation.x = 1.16;
+          cloud.rotation.y = -0.12;
+          cloud.rotation.z = Math.random() * 2 * Math.PI;
+          cloudParticles.push(cloud);
+          scene.add(cloud);
+        }
+      });
 
-    light.position.set(10, 0, 50);
-    scene.add(light);
-    //scene.add(spotLight);
+    let directionalLight = new THREE.DirectionalLight(0xff7f00);
+    directionalLight.position.set(0, 0, 1);
+    scene.add(directionalLight);
+
+    let orangeLight = new THREE.PointLight(0xff7f00, 100, 500, 1.7);
+    orangeLight.position.set(200, 300, 100);
+    scene.add(orangeLight);
+    let redLight = new THREE.PointLight(0x9f0033, 50, 500, 1.7);
+    redLight.position.set(100, 300, 100);
+    scene.add(redLight);
+    let blueLight = new THREE.PointLight(0x005499, 50, 400, 1.7);
+    blueLight.position.set(300, 300, 200);
+    scene.add(blueLight);
+
+    const bloomEffect = new POSTPROCESSING.BloomEffect({
+      blendFunction: POSTPROCESSING.BlendFunction.SOFT_LIGHT,
+      kernelSize: POSTPROCESSING.KernelSize.VERY_SMALL,
+      useLuminanceFilter: true,
+      luminanceThreshold: 0.1,
+      luminanceSmoothing: 0.9
+    });
+    bloomEffect.blendMode.opacity.value = 1.25;
+    const composer = new POSTPROCESSING.EffectComposer(renderer);
+    composer.addPass(new POSTPROCESSING.RenderPass(scene, camera));
+    composer.addPass(new POSTPROCESSING.EffectPass(camera, bloomEffect));
+
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+    let addPoint = (mouse) => {
+      //alert("clicked at " + mouse.x + " " + mouse.y);
+      addCloudToScene(mouse);
+    }
+
+    let removeLastPoint = () => {
+      var cloud = cloudParticles.pop();
+      var curItem = scene.getObjectByProperty('uuid', cloud.uuid);
+      curItem.geometry.dispose();
+      curItem.material.dispose();
+      scene.remove(curItem);
+
+    }
+
+    function onDocumentMouseDown(event) {
+
+      event.preventDefault();
+
+      switch (event.which) {
+        case 1: // left mouse click
+
+          mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+          addPoint(mouse);
+          break;
+        default:
+        case 2: // right mouse click
+          removeLastPoint();
+      }
+    }
+
+    //const controls = new OrbitControls(camera, renderer.domElement);
 
     var render = function () {
+      //renderer.render(scene, camera);
       requestAnimationFrame(render);
-      renderer.render(scene, camera);
-      for (var i = 0; i < cubesInSpace; i++) {
-        step(meshArray[i]);
-        repurposeMesh(meshArray[i]);
-      }
-      //if (Math.random() < .01) {
-      //  pushMeshIntoScene();
-      //}
-      cubesInSpace = meshArray.length;
-      //const controls = new OrbitControls(camera, renderer.domElement);
+      cloudParticles.forEach(p => p.rotation.z += .001);
+      composer.render();
     }
-
-
     render();
+
   }
+
+
 
   render() {
     return (
-      <div></div>
+      <div ref={ref => (this.mount = ref)}></div>
     );
   }
 }
